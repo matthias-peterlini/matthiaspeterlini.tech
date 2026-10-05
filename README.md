@@ -81,6 +81,10 @@ npm run deploy
 
 HTML · CSS · vanilla JavaScript · [Cloudflare Workers](https://developers.cloudflare.com/workers/) with [static assets](https://developers.cloudflare.com/workers/static-assets/) · [Roboto Flex](https://fonts.google.com/specimen/Roboto+Flex)
 
+## License
+
+The code is [MIT](LICENSE): feel free to borrow the Worker, the wavy line or anything else. The text, images, project names and logos are mine, so please don't republish them as your own.
+
 ## Contact
 
 [matthias.peterlini@gmail.com](mailto:matthias.peterlini@gmail.com) · [GitHub](https://github.com/matthias-peterlini)
