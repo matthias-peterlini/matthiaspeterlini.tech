@@ -88,6 +88,8 @@ body {
 }
 a { color: inherit; }
 .wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+/* the hero glow reaches past the right edge; body overflow alone doesn't stop sideways panning on mobile */
+main { overflow-x: clip; }
 
 /* ---------- hero ---------- */
 .hero { min-height: 92svh; display: grid; align-content: center; gap: 28px; padding-block: 96px 64px; position: relative; }
