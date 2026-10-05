@@ -3,8 +3,8 @@
 Personal site, served by a Cloudflare Worker with static assets.
 
 - `public/` — the site (`index.html`, images, `robots.txt`, `sitemap.xml`)
-- `src/index.js` — Worker: serves `public/` and `/api/contributions` (GitHub contribution calendar, cached 4 h)
-- `wrangler.jsonc` — Worker config
+- `src/index.js` — Worker: serves `public/` and `/api/contributions` (GitHub contribution calendar, cached 1 h) and redirects `www.` to the bare domain
+- `wrangler.jsonc` — Worker config (Worker `landing` on account `fdd8b534…`)
 
 ```sh
 npm install

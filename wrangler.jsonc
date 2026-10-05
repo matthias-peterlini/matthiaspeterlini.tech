@@ -1,16 +1,17 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  // TODO: must match the Worker's name in the Cloudflare dashboard.
-  "name": "matthiaspeterlini-tech",
+  "name": "landing",
   "account_id": "fdd8b5348ae948cc89bcbd8c896d3082",
   "main": "src/index.js",
-  "compatibility_date": "2026-10-01",
+  "compatibility_date": "2026-09-01",
   "assets": {
     "directory": "./public",
-    "binding": "ASSETS",
-    "not_found_handling": "none"
+    "binding": "ASSETS"
   },
+  "workers_dev": false,
+  "preview_urls": false,
   "routes": [
-    { "pattern": "matthiaspeterlini.tech", "custom_domain": true }
+    { "pattern": "matthiaspeterlini.tech", "custom_domain": true },
+    { "pattern": "www.matthiaspeterlini.tech", "custom_domain": true }
   ]
 }
