@@ -2,6 +2,7 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   // TODO: must match the Worker's name in the Cloudflare dashboard.
   "name": "matthiaspeterlini-tech",
+  "account_id": "fdd8b5348ae948cc89bcbd8c896d3082",
   "main": "src/index.js",
   "compatibility_date": "2026-10-01",
   "assets": {
