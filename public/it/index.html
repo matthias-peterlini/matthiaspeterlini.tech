@@ -1,0 +1,439 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Matthias Peterlini — Sviluppatore e designer</title>
+<meta name="description" content="Matthias Peterlini è uno sviluppatore e designer del Trentino che lavora a ticly, al launcher Minecraft NexusMC e alle estensioni per browser Better for…">
+<meta name="author" content="Matthias Peterlini">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://matthiaspeterlini.tech/it/">
+<link rel="alternate" hreflang="en" href="https://matthiaspeterlini.tech/">
+<link rel="alternate" hreflang="it" href="https://matthiaspeterlini.tech/it/">
+<link rel="alternate" hreflang="x-default" href="https://matthiaspeterlini.tech/">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://matthiaspeterlini.tech/it/">
+<meta property="og:site_name" content="Matthias Peterlini">
+<meta property="og:title" content="Matthias Peterlini — Sviluppatore e designer">
+<meta property="og:description" content="Creo cose piacevoli da usare: app, estensioni per browser, launcher e interi ecosistemi.">
+<meta property="og:image" content="https://matthiaspeterlini.tech/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Matthias Peterlini — Sviluppatore e designer">
+<meta property="og:locale" content="it_IT">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="profile:first_name" content="Matthias">
+<meta property="profile:last_name" content="Peterlini">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Matthias Peterlini — Sviluppatore e designer">
+<meta name="twitter:description" content="Creo cose piacevoli da usare: app, estensioni per browser, launcher e interi ecosistemi.">
+<meta name="twitter:image" content="https://matthiaspeterlini.tech/og.png">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "url": "https://matthiaspeterlini.tech/it/",
+  "inLanguage": "it",
+  "mainEntity": {
+    "@type": "Person",
+    "name": "Matthias Peterlini",
+    "url": "https://matthiaspeterlini.tech/",
+    "image": "https://matthiaspeterlini.tech/og.png",
+    "email": "mailto:matthias.peterlini@gmail.com",
+    "jobTitle": "Sviluppatore e designer",
+    "address": { "@type": "PostalAddress", "addressRegion": "Trentino", "addressCountry": "IT" },
+    "affiliation": { "@type": "HighSchool", "name": "ITT G. Marconi", "url": "https://www.marconirovereto.it", "address": { "@type": "PostalAddress", "addressLocality": "Rovereto", "addressRegion": "Trentino", "addressCountry": "IT" } },
+    "sameAs": ["https://github.com/matthias-peterlini"],
+    "knowsAbout": ["TypeScript", "React", "Rust", "Tauri", "Kotlin", "Jetpack Compose", "Chrome extensions", "Cloudflare Workers", "Python", "Material 3 Expressive"]
+  }
+}
+</script>
+<script>document.documentElement.classList.add('js')</script>
+<meta name="theme-color" content="#0e1416">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wdth,wght@8..144,25..151,300..900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e1416;
+  --surface: #161d1f;
+  --surface-hi: #1f2729;
+  --on-bg: #dee3e5;
+  --muted: #9aa6a9;
+  --outline: #3f484b;
+  --primary: #4fd8eb;
+  --on-primary: #00363d;
+  --spring: cubic-bezier(.34, 1.56, .64, 1);
+  /* per-card tonal accents */
+  --t1: #ffb4ab; --t2: #4fd8eb; --t3: #c3c0ff; --t4: #9ad69f; --t5: #ffb870; --t6: #f5b2e0;
+  color-scheme: dark;
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    --bg: #f5fafb; --surface: #e9eff0; --surface-hi: #dee5e7;
+    --on-bg: #171d1e; --muted: #535f62; --outline: #bfc8ca;
+    --primary: #006874; --on-primary: #ffffff;
+    --t1: #b3261e; --t2: #006874; --t3: #4f48b8; --t4: #2e6b36; --t5: #8a5100; --t6: #8e3a7a;
+    color-scheme: light;
+  }
+}
+* { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--on-bg);
+  font: 400 1.0625rem/1.6 "Roboto Flex", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; }
+.wrap { width: min(1120px, 100% - 32px); margin-inline: auto; }
+/* the hero glow reaches past the right edge; body overflow alone doesn't stop sideways panning on mobile */
+main { overflow-x: clip; }
+
+/* ---------- hero ---------- */
+.hero { min-height: 92svh; display: grid; align-content: center; gap: 28px; padding-block: 96px 64px; position: relative; }
+.hero::before {
+  content: ""; position: absolute; inset: -20% -30% auto auto; width: 70vmax; aspect-ratio: 1;
+  background: radial-gradient(closest-side, color-mix(in oklch, var(--primary) 22%, transparent), transparent);
+  z-index: -1; pointer-events: none;
+}
+.eyebrow { font-weight: 600; font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; color: var(--primary); }
+h1 {
+  font-size: clamp(3.2rem, 11vw, 8.5rem); line-height: .92; letter-spacing: -.035em;
+  font-variation-settings: "wght" 800, "wdth" 112, "opsz" 144;
+}
+h1 span { display: block; transition: font-variation-settings .6s var(--spring); }
+h1:hover span:last-child, h1.morph span:last-child { font-variation-settings: "wght" 300, "wdth" 140, "opsz" 144; }
+.lede { max-width: 34ch; font-size: clamp(1.2rem, 2.6vw, 1.6rem); line-height: 1.4; color: var(--muted); }
+.lede b { color: var(--on-bg); font-weight: 600; }
+#wave { width: min(560px, 100%); height: 36px; display: block; }
+.cta { display: flex; flex-wrap: wrap; gap: 12px; }
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; height: 56px; padding-inline: 28px;
+  border-radius: 28px; font-weight: 600; text-decoration: none;
+  transition: border-radius .35s var(--spring), transform .35s var(--spring), background .2s;
+}
+.btn:hover { border-radius: 14px; }
+.btn:active { transform: scale(.96); }
+.btn.filled { background: var(--primary); color: var(--on-primary); }
+.btn.tonal { background: var(--surface-hi); }
+
+/* ---------- sections ---------- */
+section { padding-block: 64px; }
+h2 {
+  font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.05; letter-spacing: -.02em; margin-bottom: 32px;
+  font-variation-settings: "wght" 700, "wdth" 105, "opsz" 72;
+}
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 330px), 1fr)); grid-auto-flow: dense; gap: 16px; }
+.card {
+  --t: var(--primary);
+  position: relative; display: flex; flex-direction: column; gap: 14px; padding: 28px;
+  background: var(--surface); border-radius: 28px; overflow: hidden;
+  transition: border-radius .5s var(--spring), transform .5s var(--spring), background .3s;
+}
+.card:hover { border-radius: 48px 16px 48px 16px; transform: translateY(-4px); background: color-mix(in oklch, var(--t) 10%, var(--surface)); }
+.card.big { grid-column: span 2; }
+@media (max-width: 720px) { .card.big { grid-column: auto; } }
+.cover {
+  display: block; width: calc(100% + 56px); height: auto; margin: -28px -28px 6px;
+  background: var(--surface-hi); transition: scale .6s var(--spring);
+}
+.card:hover .cover { scale: 1.03; }
+/* logo-on-gradient cover for projects without a screenshot; grows to match its row */
+.cover.art {
+  flex: 1; min-height: 200px; display: grid; place-items: center;
+  background: radial-gradient(circle at 50% 45%, #3a2a5c, #8b55f8 140%);
+}
+.cover.art img { width: 132px; height: 132px; border-radius: 50%; box-shadow: 0 12px 40px #0006; transition: scale .6s var(--spring), rotate .6s var(--spring); }
+.card:hover .cover.art { scale: 1; }
+.card:hover .cover.art img { scale: 1.08; rotate: -6deg; }
+.badge {
+  width: 56px; height: 56px; display: grid; place-items: center; flex: none;
+  background: color-mix(in oklch, var(--t) 22%, transparent); color: var(--t);
+  border-radius: 18px; transition: border-radius .5s var(--spring), rotate .5s var(--spring);
+}
+.card:hover .badge { border-radius: 50%; rotate: -8deg; }
+.badge svg { width: 28px; height: 28px; }
+.badge img { width: 100%; height: 100%; border-radius: inherit; object-fit: cover; }
+.card h3 { font-size: 1.5rem; line-height: 1.15; font-variation-settings: "wght" 650, "wdth" 104, "opsz" 36; }
+.card p { color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; list-style: none; padding-left: 0; }
+.tags li { font-size: .8rem; font-weight: 500; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--outline); }
+.card .kicker { font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--t); }
+
+.link {
+  align-self: flex-start; font-weight: 600; color: var(--t); text-decoration: none;
+  padding: 8px 16px; margin: -8px -16px; border-radius: 20px; transition: background .2s;
+}
+.link:hover { background: color-mix(in oklch, var(--t) 14%, transparent); }
+.btn { overflow-wrap: anywhere; }
+.chips { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
+.chips li {
+  padding: 10px 20px; border-radius: 24px; background: var(--surface-hi); font-weight: 500;
+  transition: border-radius .4s var(--spring), background .2s;
+}
+.chips li:hover { border-radius: 12px; background: color-mix(in oklch, var(--primary) 18%, var(--surface-hi)); }
+
+/* ---------- github ---------- */
+.gh { display: grid; gap: 16px; }
+.gh > * { min-width: 0; }
+.panel { background: var(--surface); border-radius: 28px; padding: 28px; }
+.panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
+.panel .sub { color: var(--muted); font-size: .9rem; }
+.cal-scroll { overflow-x: auto; margin-top: 20px; padding-bottom: 6px; }
+.cal { display: grid; grid-template-rows: repeat(7, 12px); grid-auto-flow: column; grid-auto-columns: 12px; gap: 3px; width: max-content; }
+.cal i, .legend i { border-radius: 3px; background: var(--surface-hi); }
+i[data-l="1"] { background: color-mix(in oklch, var(--primary) 30%, var(--surface-hi)); }
+i[data-l="2"] { background: color-mix(in oklch, var(--primary) 55%, var(--surface-hi)); }
+i[data-l="3"] { background: color-mix(in oklch, var(--primary) 78%, var(--surface-hi)); }
+i[data-l="4"] { background: var(--primary); }
+.cal i.pad { visibility: hidden; }
+.legend { display: flex; align-items: center; gap: 3px; justify-content: flex-end; margin-top: 10px; font-size: .8rem; color: var(--muted); }
+.legend i { width: 12px; height: 12px; display: inline-block; }
+.legend span { margin-inline: 6px; }
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 16px; }
+.stat { background: var(--surface); border-radius: 24px; padding: 20px 24px; }
+.stat b { display: block; font-size: 2.4rem; line-height: 1.1; font-variation-settings: "wght" 750, "wdth" 110, "opsz" 72; color: var(--primary); }
+.stat span { color: var(--muted); font-size: .9rem; }
+.langbar { display: flex; height: 12px; border-radius: 6px; overflow: hidden; gap: 3px; margin-top: 16px; }
+.langs { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; list-style: none; padding: 0; font-size: .9rem; }
+.langs li::before { content: ""; display: inline-block; width: 10px; height: 10px; border-radius: 50%; margin-right: 6px; background: var(--c); }
+.repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr)); gap: 12px; margin-top: 16px; }
+.repo { display: block; padding: 16px 18px; border-radius: 18px; background: var(--surface-hi); text-decoration: none; transition: border-radius .4s var(--spring); }
+.repo:hover { border-radius: 8px; }
+.repo b { display: block; font-weight: 600; }
+.repo p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
+.repo small { color: var(--muted); font-size: .8rem; }
+[hidden] { display: none !important; }
+
+.lang-switch {
+  position: absolute; top: 24px; right: 0; padding: 8px 16px; border-radius: 20px;
+  background: var(--surface-hi); font-size: .9rem; font-weight: 600; text-decoration: none;
+  transition: border-radius .35s var(--spring), background .2s;
+}
+.lang-switch:hover { border-radius: 10px; background: color-mix(in oklch, var(--primary) 18%, var(--surface-hi)); }
+
+footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border-top: 1px solid var(--outline); }
+
+/* reveal on scroll */
+.js .reveal { opacity: 0; translate: 0 24px; transition: opacity .7s ease, translate .9s var(--spring); }
+.js .reveal.in { opacity: 1; translate: 0 0; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before { transition: none !important; }
+  .js .reveal { opacity: 1; translate: none; }
+}
+</style>
+</head>
+<body>
+
+<main>
+  <header class="hero wrap">
+    <a class="lang-switch" href="/?lang=en" hreflang="en" lang="en">English</a>
+    <p class="eyebrow">Trentino · Italia</p>
+    <h1><span>Matthias</span> <span>Peterlini</span></h1>
+    <canvas id="wave" aria-hidden="true"></canvas>
+    <p class="lede">Creo cose <b>piacevoli da usare</b>: app, estensioni per browser, launcher e interi ecosistemi.</p>
+    <div class="cta">
+      <a class="btn filled" href="#work">I miei progetti</a>
+      <a class="btn tonal" href="#contact">Contattami</a>
+    </div>
+  </header>
+
+  <section id="work" class="wrap">
+    <h2 class="reveal">Cosa ho creato</h2>
+    <div class="grid">
+
+      <article class="card reveal" style="--t: var(--t3)">
+        <div class="cover art" aria-hidden="true"><img src="/ticly.webp" width="320" height="320" alt=""></div>
+        <span class="kicker">Ecosistema</span>
+        <h3>ticly</h3>
+        <p>Un ecosistema digitale di app, giochi e servizi pensati per essere semplici, eleganti e veloci: streaming musicale, mobilità con ticly Maps, produttività e IA, tutto progettato insieme.</p>
+        <ul class="tags"><li>Apps</li><li>Web</li><li>Android</li></ul>
+        <a class="link" href="https://ticly.it" target="_blank" rel="noopener">ticly.it <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="card big reveal" style="--t: var(--t4)">
+        <img class="cover" src="/covers/nexusmc.webp" width="1120" height="588" loading="lazy" alt="Schermata principale di Nexus Launcher con le istanze di Minecraft">
+        <span class="kicker">Launcher per Minecraft · In arrivo</span>
+        <h3>NexusMC</h3>
+        <p>Un launcher open source per Minecraft: Java Edition. Accesso ufficiale con Microsoft, istanze isolate con Fabric, Quilt, Forge e NeoForge, un gestore di mod Modrinth, un copilota IA per il modding, amici e hosting dei mondi.</p>
+        <ul class="tags"><li>Rust</li><li>Tauri</li><li>React</li><li>TypeScript</li></ul>
+        <a class="link" href="https://nexusmc.online" target="_blank" rel="noopener">nexusmc.online <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="card reveal" style="--t: var(--t1)">
+        <img class="cover" src="/covers/better-for-youtube-music.webp" width="1120" height="448" loading="lazy" alt="Better for YouTube Music — screenshot di YouTube Music ridisegnato">
+        <span class="kicker">Estensione Chrome · App per Windows</span>
+        <h3>Better for YouTube Music</h3>
+        <p>YouTube Music in Material 3 Expressive: colori presi dalla copertina dell'album, testi karaoke sincronizzati lettera per lettera, una barra di avanzamento ondulata e un'app più leggera e veloce. Disponibile anche come app per Windows.</p>
+        <ul class="tags"><li>JavaScript</li><li>Material 3</li><li>Testi sincronizzati</li></ul>
+        <a class="link" href="https://chromewebstore.google.com/detail/better-for-youtube-music/kdcpdihgkchbaiejplfncbfkknmjmmhh" target="_blank" rel="noopener">Chrome Web Store <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="card reveal" style="--t: var(--t1)">
+        <img class="cover" src="/covers/better-for-youtube.webp" width="1120" height="448" loading="lazy" alt="Better for YouTube — screenshot di YouTube ridisegnato">
+        <span class="kicker">Estensione Chrome</span>
+        <h3>Better for YouTube</h3>
+        <p>YouTube in Material 3 Expressive: colori presi da ciò che guardi, una barra di avanzamento ondulata, niente Shorts, almeno 1080p e una pagina più leggera.</p>
+        <ul class="tags"><li>JavaScript</li><li>Material 3</li></ul>
+        <a class="link" href="https://chromewebstore.google.com/detail/better-for-youtube/cdahaahkabbgekjigmaaobmhaoigknkm" target="_blank" rel="noopener">Chrome Web Store <span aria-hidden="true">↗</span></a>
+      </article>
+
+      <article class="card reveal" style="--t: var(--t4)">
+        <img class="cover" src="/covers/better-for-spotify.webp" width="1120" height="448" loading="lazy" alt="Better for Spotify — screenshot di Spotify ridisegnato">
+        <span class="kicker">Estensione Chrome</span>
+        <h3>Better for Spotify</h3>
+        <p>Il web player di Spotify in Material 3 Expressive: colori presi dalla copertina dell'album, testi karaoke sincronizzati, una barra di avanzamento ondulata e audio disattivato durante le pubblicità.</p>
+        <ul class="tags"><li>JavaScript</li><li>Material 3</li><li>Testi sincronizzati</li></ul>
+        <a class="link" href="https://chromewebstore.google.com/detail/better-for-spotify/jfhahhfabflocojmfejilfdfoogejand" target="_blank" rel="noopener">Chrome Web Store <span aria-hidden="true">↗</span></a>
+      </article>
+
+    </div>
+  </section>
+
+  <section id="github" class="wrap">
+    <h2 class="reveal">Su GitHub</h2>
+    <div class="gh">
+      <div class="panel reveal">
+        <h3 id="gh-total">Contributi nell'ultimo anno</h3>
+        <p class="sub">In tempo reale dal mio profilo GitHub: il lavoro privato appare come quadratini anonimi.</p>
+        <div class="cal-scroll"><div class="cal" id="cal" role="img" aria-label="Calendario dei contributi GitHub"></div></div>
+        <div class="legend" aria-hidden="true"><span>Meno</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span>Più</span></div>
+      </div>
+      <div class="stats reveal">
+        <div class="stat"><b id="gh-contrib">—</b><span>contributi nell'ultimo anno</span></div>
+        <div class="stat"><b id="gh-repos">—</b><span>repository pubblici</span></div>
+        <div class="stat"><b id="gh-followers">—</b><span>follower</span></div>
+        <div class="stat"><b id="gh-following">—</b><span>seguiti</span></div>
+      </div>
+      <div class="panel reveal" id="gh-code" hidden>
+        <h3>Linguaggi e repository recenti</h3>
+        <div class="langbar" id="langbar"></div>
+        <ul class="langs" id="langs"></ul>
+        <div class="repos" id="repos"></div>
+      </div>
+      <div class="reveal"><a class="btn tonal" href="https://github.com/matthias-peterlini" target="_blank" rel="noopener">Apri il mio profilo GitHub <span aria-hidden="true">↗</span></a></div>
+    </div>
+  </section>
+
+  <section id="toolbox" class="wrap">
+    <h2 class="reveal">Strumenti</h2>
+    <ul class="chips reveal">
+      <li>TypeScript</li><li>React</li><li>Rust</li><li>Tauri</li><li>Kotlin</li><li>Jetpack Compose</li>
+      <li>Estensioni Chrome</li><li>Cloudflare Workers</li><li>Python</li><li>Godot</li>
+      <li>ESP32</li><li>Remotion</li><li>Material 3 Expressive</li>
+    </ul>
+  </section>
+
+  <section id="education" class="wrap">
+    <h2 class="reveal">Formazione</h2>
+    <div class="grid">
+      <article class="card reveal" style="--t: var(--t2)">
+        <div class="badge" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3 1 9l11 6 9-4.91V17h2V9L12 3z"/></svg></div>
+        <span class="kicker">Scuola superiore · Automazione</span>
+        <h3>ITT G. Marconi, Rovereto</h3>
+        <p>Studio all'Istituto Tecnico Tecnologico G. Marconi di Rovereto, indirizzo Automazione: elettronica, impianti elettrici e controllo industriale.</p>
+        <ul class="tags"><li>Automazione</li><li>Elettronica</li><li>Elettrotecnica</li></ul>
+        <a class="link" href="https://www.marconirovereto.it" target="_blank" rel="noopener">marconirovereto.it <span aria-hidden="true">↗</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <h2 class="reveal">Scrivimi</h2>
+    <p class="lede reveal">Hai un'idea, un bug da segnalare o vuoi solo fare due chiacchiere? Scrivimi pure.</p>
+    <div class="cta reveal" style="margin-top:28px">
+      <a class="btn filled" href="mailto:matthias.peterlini@gmail.com">matthias.peterlini@gmail.com</a>
+      <a class="btn tonal" href="https://github.com/matthias-peterlini" target="_blank" rel="noopener">GitHub <span aria-hidden="true">↗</span></a>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">© <span id="y">2026</span> Matthias Peterlini · <a href="https://github.com/matthias-peterlini">GitHub</a></footer>
+
+<script>
+document.getElementById('y').textContent = new Date().getFullYear();
+
+// GitHub: contribution calendar, profile stats, languages and recent repos (all public data).
+const GH = 'matthias-peterlini', $ = id => document.getElementById(id);
+const getJSON = url => fetch(url).then(r => r.ok ? r.json() : Promise.reject(r.status));
+const fmt = n => n.toLocaleString('it');
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+
+getJSON('/api/contributions').then(d => {
+  const days = d.contributions, total = d.total.lastYear;
+  const pad = new Date(days[0].date).getUTCDay();   // weeks start on Sunday, like GitHub
+  $('cal').innerHTML = '<i class="pad"></i>'.repeat(pad) + days.map(c =>
+    `<i data-l="${c.level}" title="${c.count} contribut${c.count === 1 ? 'o' : 'i'} il ${c.date}"></i>`).join('');
+  $('cal').setAttribute('aria-label', `${total} contributi nell'ultimo anno`);
+  $('gh-total').textContent = `${fmt(total)} contributi nell'ultimo anno`;
+  $('gh-contrib').textContent = fmt(total);
+  const s = $('cal').parentElement; s.scrollLeft = s.scrollWidth;   // most recent weeks first on phones
+}).catch(() => {});
+
+getJSON(`https://api.github.com/users/${GH}`).then(u => {
+  $('gh-repos').textContent = fmt(u.public_repos);
+  $('gh-followers').textContent = fmt(u.followers);
+  $('gh-following').textContent = fmt(u.following);
+}).catch(() => {});
+
+const LANG = { JavaScript: '#f1e05a', TypeScript: '#3178c6', Kotlin: '#a97bff', Rust: '#dea584', Python: '#3572a5',
+  HTML: '#e34c26', CSS: '#663399', GDScript: '#355570', Java: '#b07219', 'C++': '#f34b7d', Swift: '#f05138' };
+getJSON(`https://api.github.com/users/${GH}/repos?sort=pushed&per_page=100`).then(all => {
+  const repos = all.filter(r => !r.fork);
+  if (!repos.length) return;
+  const count = {};
+  repos.forEach(r => r.language && (count[r.language] = (count[r.language] || 0) + 1));
+  const langs = Object.entries(count).sort((a, b) => b[1] - a[1]).slice(0, 6);
+  const sum = langs.reduce((n, [, c]) => n + c, 0);
+  const col = l => LANG[l] || 'var(--muted)';
+  $('langbar').innerHTML = langs.map(([l, c]) => `<span style="flex:${c};background:${col(l)}"></span>`).join('');
+  $('langs').innerHTML = langs.map(([l, c]) => `<li style="--c:${col(l)}">${esc(l)} <small>${Math.round(c / sum * 100)}%</small></li>`).join('');
+  $('repos').innerHTML = repos.slice(0, 6).map(r => `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">
+    <b>${esc(r.name)}</b>${r.description ? `<p>${esc(r.description)}</p>` : ''}
+    <small>${r.language ? esc(r.language) + ' · ' : ''}★ ${r.stargazers_count} · aggiornato ${new Date(r.pushed_at).toLocaleDateString('it', { month: 'short', year: 'numeric' })}</small></a>`).join('');
+  $('gh-code').hidden = false;
+}).catch(() => {});
+
+// No hover on touch screens: morph "Peterlini" every 2 s instead.
+if (matchMedia('(hover: none)').matches) {
+  const h1 = document.querySelector('h1');
+  setInterval(() => h1.classList.toggle('morph'), 2000);
+}
+
+// Reveal on scroll
+const io = new IntersectionObserver(es => es.forEach(e => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: .12 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// M3 Expressive wavy line under the name; flattens while the pointer is still.
+const cv = document.getElementById('wave'), ctx = cv.getContext('2d');
+const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+let amp = 1, target = 1, idle;
+function resize() {
+  const r = devicePixelRatio || 1;
+  cv.width = cv.clientWidth * r; cv.height = cv.clientHeight * r; ctx.setTransform(r, 0, 0, r, 0, 0);
+}
+function draw(t) {
+  const w = cv.clientWidth, h = cv.clientHeight;
+  amp += (target - amp) * .06;
+  ctx.clearRect(0, 0, w, h);
+  ctx.lineWidth = 5; ctx.lineCap = 'round';
+  ctx.strokeStyle = getComputedStyle(document.documentElement).getPropertyValue('--primary');
+  ctx.beginPath();
+  for (let x = 4; x <= w - 4; x += 2) {
+    const y = h / 2 + Math.sin(x / 14 - t / 260) * 7 * amp;
+    x === 4 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+  if (!still) requestAnimationFrame(draw);
+}
+addEventListener('resize', resize);
+addEventListener('pointermove', () => { target = 1.6; clearTimeout(idle); idle = setTimeout(() => target = 1, 400); });
+resize(); requestAnimationFrame(draw);
+</script>
+</body>
+</html>
