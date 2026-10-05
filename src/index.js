@@ -1,4 +1,7 @@
 const USER = 'matthias-peterlini';
+// Visitors from these countries (or with an Italian browser) land on /it/.
+const ITALIAN = new Set(['IT', 'SM', 'VA']);
+const YEAR = 60 * 60 * 24 * 365;
 
 export default {
   async fetch(request, env, ctx) {
@@ -7,6 +10,28 @@ export default {
       url.hostname = url.hostname.slice(4);
       return Response.redirect(url, 301);
     }
+
+    // The language switch links to ?lang=en|it: remember the choice, then drop the parameter.
+    const pick = url.searchParams.get('lang');
+    if (pick === 'en' || pick === 'it') {
+      url.searchParams.delete('lang');
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: url.href,
+          'Set-Cookie': `lang=${pick}; Path=/; Max-Age=${YEAR}; SameSite=Lax; Secure`,
+          'Cache-Control': 'no-store',
+        },
+      });
+    }
+
+    if (url.pathname === '/') {
+      const saved = request.headers.get('Cookie')?.match(/(?:^|;\s*)lang=(en|it)\b/)?.[1];
+      const italian = saved ? saved === 'it'
+        : ITALIAN.has(request.cf?.country) || /^it\b/i.test(request.headers.get('Accept-Language') ?? '');
+      if (italian) return new Response(null, { status: 302, headers: { Location: '/it/', 'Cache-Control': 'no-store' } });
+    }
+
     if (url.pathname !== '/api/contributions') return env.ASSETS.fetch(request);
 
     const cache = caches.default;
