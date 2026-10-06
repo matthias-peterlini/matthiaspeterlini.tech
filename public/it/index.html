@@ -162,6 +162,9 @@ h2 {
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; list-style: none; padding-left: 0; }
 .tags li { font-size: .8rem; font-weight: 500; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--outline); }
 .card .kicker { font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--t); }
+.status { white-space: nowrap; }
+.live { display: inline-block; width: 8px; height: 8px; margin: 0 2px 1px 4px; border-radius: 50%; background: #3ddc84; vertical-align: middle; box-shadow: 0 0 0 0 #3ddc8499; animation: live 2s infinite; }
+@keyframes live { 70% { box-shadow: 0 0 0 7px #3ddc8400; } 100% { box-shadow: 0 0 0 0 #3ddc8400; } }
 
 .link {
   align-self: flex-start; font-weight: 600; color: var(--t); text-decoration: none;
@@ -236,6 +239,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 @media (prefers-reduced-motion: reduce) {
   *, *::before { transition: none !important; }
   .js .reveal { opacity: 1; translate: none; }
+  .live { animation: none; }
 }
 </style>
 </head>
@@ -269,7 +273,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 
       <article class="card big reveal" style="--t: var(--t4)">
         <img class="cover" src="/covers/nexusmc.webp" width="1120" height="588" loading="lazy" alt="Schermata principale di Nexus Launcher con le istanze di Minecraft">
-        <span class="kicker">Launcher per Minecraft · In arrivo</span>
+        <span class="kicker">Launcher per Minecraft · <span class="status"><span class="live" aria-hidden="true"></span> Disponibile</span></span>
         <h3>NexusMC</h3>
         <p>Un launcher open source per Minecraft: Java Edition. Accesso ufficiale con Microsoft, istanze isolate con Fabric, Quilt, Forge e NeoForge, un gestore di mod Modrinth, un copilota IA per il modding, amici e hosting dei mondi.</p>
         <ul class="tags"><li>Rust</li><li>Tauri</li><li>React</li><li>TypeScript</li></ul>
