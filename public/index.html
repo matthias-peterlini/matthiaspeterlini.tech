@@ -182,6 +182,19 @@ h2 {
 .panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
 .panel .sub { color: var(--muted); font-size: .9rem; }
 .cal-scroll { overflow-x: auto; margin-top: 20px; padding-bottom: 6px; }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px 16px; }
+.seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 20px; background: var(--surface-hi); }
+.seg button {
+  font: inherit; font-size: .85rem; font-weight: 600; color: var(--muted); background: none; border: 0;
+  padding: 6px 14px; border-radius: 16px; cursor: pointer;
+  transition: border-radius .35s var(--spring), background .2s, color .2s;
+}
+.seg button:hover { border-radius: 8px; }
+.seg button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+.city { margin-top: 12px; }
+#city { display: block; width: 100%; height: clamp(280px, 30vw, 360px); cursor: grab; touch-action: pan-y; }
+#city.dragging { cursor: grabbing; }
+.city-tip { min-height: 1.5em; text-align: center; color: var(--muted); font-size: .85rem; }
 .cal { display: grid; grid-template-rows: repeat(7, 12px); grid-auto-flow: column; grid-auto-columns: 12px; gap: 3px; width: max-content; }
 .cal i, .legend i { border-radius: 3px; background: var(--surface-hi); }
 i[data-l="1"] { background: color-mix(in oklch, var(--primary) 30%, var(--surface-hi)); }
@@ -296,9 +309,18 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
     <h2 class="reveal">On GitHub</h2>
     <div class="gh">
       <div class="panel reveal">
-        <h3 id="gh-total">Contributions in the last year</h3>
-        <p class="sub">Live from my GitHub profile — private work shows up as anonymous squares.</p>
-        <div class="cal-scroll"><div class="cal" id="cal" role="img" aria-label="GitHub contribution calendar"></div></div>
+        <div class="panel-head">
+          <div>
+            <h3 id="gh-total">Contributions in the last year</h3>
+            <p class="sub">Live from my GitHub profile — private work shows up as anonymous squares.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Calendar view"><button type="button" data-view="3d" aria-pressed="true">3D</button><button type="button" data-view="2d" aria-pressed="false">2D</button></div>
+        </div>
+        <div class="city" id="city-wrap">
+          <canvas id="city" role="img" aria-label="3D map of GitHub contributions"></canvas>
+          <p class="city-tip" id="city-tip" aria-live="polite">Drag to rotate · tap a column for details</p>
+        </div>
+        <div class="cal-scroll" hidden><div class="cal" id="cal" role="img" aria-label="GitHub contribution calendar"></div></div>
         <div class="legend" aria-hidden="true"><span>Less</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span>More</span></div>
       </div>
       <div class="stats reveal">
@@ -352,6 +374,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 
 <footer class="wrap">© <span id="y">2026</span> Matthias Peterlini · <a href="https://github.com/matthias-peterlini">GitHub</a></footer>
 
+<script src="/city.js"></script>
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 
@@ -370,6 +393,7 @@ getJSON('/api/contributions').then(d => {
   $('gh-total').textContent = `${fmt(total)} contributions in the last year`;
   $('gh-contrib').textContent = fmt(total);
   const s = $('cal').parentElement; s.scrollLeft = s.scrollWidth;   // most recent weeks first on phones
+  window.renderCity?.(days);
 }).catch(() => {});
 
 getJSON(`https://api.github.com/users/${GH}`).then(u => {
