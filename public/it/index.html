@@ -162,6 +162,9 @@ h2 {
 .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: auto; padding-top: 6px; list-style: none; padding-left: 0; }
 .tags li { font-size: .8rem; font-weight: 500; padding: 4px 12px; border-radius: 8px; border: 1px solid var(--outline); }
 .card .kicker { font-size: .8rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--t); }
+.status { white-space: nowrap; }
+.live { display: inline-block; width: 8px; height: 8px; margin: 0 2px 1px 4px; border-radius: 50%; background: #3ddc84; vertical-align: middle; box-shadow: 0 0 0 0 #3ddc8499; animation: live 2s infinite; }
+@keyframes live { 70% { box-shadow: 0 0 0 7px #3ddc8400; } 100% { box-shadow: 0 0 0 0 #3ddc8400; } }
 
 .link {
   align-self: flex-start; font-weight: 600; color: var(--t); text-decoration: none;
@@ -183,6 +186,19 @@ h2 {
 .panel h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
 .panel .sub { color: var(--muted); font-size: .9rem; }
 .cal-scroll { overflow-x: auto; margin-top: 20px; padding-bottom: 6px; }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 12px 16px; }
+.seg { display: inline-flex; gap: 4px; padding: 4px; border-radius: 20px; background: var(--surface-hi); }
+.seg button {
+  font: inherit; font-size: .85rem; font-weight: 600; color: var(--muted); background: none; border: 0;
+  padding: 6px 14px; border-radius: 16px; cursor: pointer;
+  transition: border-radius .35s var(--spring), background .2s, color .2s;
+}
+.seg button:hover { border-radius: 8px; }
+.seg button[aria-pressed="true"] { background: var(--primary); color: var(--on-primary); }
+.city { margin-top: 12px; }
+#city { display: block; width: 100%; height: clamp(280px, 30vw, 360px); cursor: grab; touch-action: pan-y; }
+#city.dragging { cursor: grabbing; }
+.city-tip { min-height: 1.5em; text-align: center; color: var(--muted); font-size: .85rem; }
 .cal { display: grid; grid-template-rows: repeat(7, 12px); grid-auto-flow: column; grid-auto-columns: 12px; gap: 3px; width: max-content; }
 .cal i, .legend i { border-radius: 3px; background: var(--surface-hi); }
 i[data-l="1"] { background: color-mix(in oklch, var(--primary) 30%, var(--surface-hi)); }
@@ -223,6 +239,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 @media (prefers-reduced-motion: reduce) {
   *, *::before { transition: none !important; }
   .js .reveal { opacity: 1; translate: none; }
+  .live { animation: none; }
 }
 </style>
 </head>
@@ -256,7 +273,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 
       <article class="card big reveal" style="--t: var(--t4)">
         <img class="cover" src="/covers/nexusmc.webp" width="1120" height="588" loading="lazy" alt="Schermata principale di Nexus Launcher con le istanze di Minecraft">
-        <span class="kicker">Launcher per Minecraft · In arrivo</span>
+        <span class="kicker">Launcher per Minecraft · <span class="status"><span class="live" aria-hidden="true"></span> Disponibile</span></span>
         <h3>NexusMC</h3>
         <p>Un launcher open source per Minecraft: Java Edition. Accesso ufficiale con Microsoft, istanze isolate con Fabric, Quilt, Forge e NeoForge, un gestore di mod Modrinth, un copilota IA per il modding, amici e hosting dei mondi.</p>
         <ul class="tags"><li>Rust</li><li>Tauri</li><li>React</li><li>TypeScript</li></ul>
@@ -297,9 +314,18 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
     <h2 class="reveal">Su GitHub</h2>
     <div class="gh">
       <div class="panel reveal">
-        <h3 id="gh-total">Contributi nell'ultimo anno</h3>
-        <p class="sub">In tempo reale dal mio profilo GitHub: il lavoro privato appare come quadratini anonimi.</p>
-        <div class="cal-scroll"><div class="cal" id="cal" role="img" aria-label="Calendario dei contributi GitHub"></div></div>
+        <div class="panel-head">
+          <div>
+            <h3 id="gh-total">Contributi nell'ultimo anno</h3>
+            <p class="sub">In tempo reale dal mio profilo GitHub: il lavoro privato appare come quadratini anonimi.</p>
+          </div>
+          <div class="seg" role="group" aria-label="Vista del calendario"><button type="button" data-view="3d" aria-pressed="true">3D</button><button type="button" data-view="2d" aria-pressed="false">2D</button></div>
+        </div>
+        <div class="city" id="city-wrap">
+          <canvas id="city" role="img" aria-label="Mappa 3D dei contributi GitHub"></canvas>
+          <p class="city-tip" id="city-tip" aria-live="polite">Trascina per ruotare · tocca una colonna per i dettagli</p>
+        </div>
+        <div class="cal-scroll" hidden><div class="cal" id="cal" role="img" aria-label="Calendario dei contributi GitHub"></div></div>
         <div class="legend" aria-hidden="true"><span>Meno</span><i data-l="0"></i><i data-l="1"></i><i data-l="2"></i><i data-l="3"></i><i data-l="4"></i><span>Più</span></div>
       </div>
       <div class="stats reveal">
@@ -353,6 +379,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
 
 <footer class="wrap">© <span id="y">2026</span> Matthias Peterlini · <a href="https://github.com/matthias-peterlini">GitHub</a></footer>
 
+<script src="/city.js"></script>
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 
@@ -371,6 +398,7 @@ getJSON('/api/contributions').then(d => {
   $('gh-total').textContent = `${fmt(total)} contributi nell'ultimo anno`;
   $('gh-contrib').textContent = fmt(total);
   const s = $('cal').parentElement; s.scrollLeft = s.scrollWidth;   // most recent weeks first on phones
+  window.renderCity?.(days);
 }).catch(() => {});
 
 getJSON(`https://api.github.com/users/${GH}`).then(u => {

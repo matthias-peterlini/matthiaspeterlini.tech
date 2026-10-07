@@ -23,7 +23,7 @@ My personal site: a single hand-written HTML page served by a Cloudflare Worker.
 - **Material 3 Expressive look**: spring animations, shape-morphing cards and buttons, and a wavy line under my name drawn on a `<canvas>` that gets livelier while the pointer moves.
 - **Variable type**: *Roboto Flex*. The surname morphs between weights and widths on hover, or every two seconds on touch screens.
 - **Light and dark**: follows the system theme, with a tonal accent per project card.
-- **Live GitHub data**: contribution calendar, profile stats, top languages and recently pushed repositories.
+- **Live GitHub data**: profile stats, top languages, recently pushed repositories, and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
 - **English and Italian**: visitors in Italy (or with an Italian browser) land on `/it/` automatically. The language switch remembers their choice.
 - **Considerate by default**: respects `prefers-reduced-motion`, semantic markup and alt text, JSON-LD profile data, Open Graph cards, `hreflang` and a sitemap.
 
@@ -46,6 +46,7 @@ GitHub has no public API for the contribution calendar, so the Worker reads the 
 ```
 public/
 ├── index.html          English page (HTML, CSS and JS in one file)
+├── city.js             3D contribution map, shared by both languages
 ├── it/index.html       Italian page
 ├── covers/             project screenshots (WebP)
 ├── og.png              social preview image
