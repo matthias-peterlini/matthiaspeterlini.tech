@@ -88,4 +88,4 @@ The code is [MIT](LICENSE): feel free to borrow the Worker, the wavy line or any
 
 ## Contact
 
-[matthias.peterlini@gmail.com](mailto:matthias.peterlini@gmail.com) · [GitHub](https://github.com/matthias-peterlini)
+[info@matthiaspeterlini.tech](mailto:info@matthiaspeterlini.tech) · [GitHub](https://github.com/matthias-peterlini)
