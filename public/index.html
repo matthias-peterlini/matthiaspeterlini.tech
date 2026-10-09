@@ -409,7 +409,7 @@ getJSON('/api/contributions').then(d => {
 }).catch(() => {});
 
 // Profile counts and repos (mine + the ticly organisation's) come from the Worker, which caches
-// GitHub's answer, so visitors never run into GitHub's per-IP rate limit.
+// GitHub's answer, so visitors rarely run into GitHub's per-IP rate limit.
 const LANG = { JavaScript: '#f1e05a', TypeScript: '#3178c6', Kotlin: '#a97bff', Rust: '#dea584', Python: '#3572a5',
   HTML: '#e34c26', CSS: '#663399', GDScript: '#355570', Java: '#b07219', 'C++': '#f34b7d', Swift: '#f05138' };
 // Shown when a repo has no description on GitHub.
@@ -417,7 +417,21 @@ const ABOUT = {
   "nexus-client": "Nexus Launcher: open-source Minecraft: Java Edition launcher built with Tauri, Rust and React.",
   "rustos": "A homemade x86_64 kernel written in Rust, booting in QEMU, with its own shell.",
 };
-getJSON('/api/github').then(d => {
+// If the Worker can't reach GitHub either (Cloudflare's shared IPs get rate-limited too),
+// ask GitHub from the visitor's browser, which has its own hourly allowance.
+const ORG = 'TiclyMusic';
+const fromBrowser = () => Promise.all([
+  getJSON(`https://api.github.com/users/${GH}`),
+  getJSON(`https://api.github.com/users/${GH}/repos?sort=pushed&per_page=100`),
+  getJSON(`https://api.github.com/orgs/${ORG}/repos?sort=pushed&per_page=100`),
+]).then(([user, mine, org]) => ({
+  followers: user.followers, following: user.following, org: ORG,
+  repos: [...mine, ...org].filter(r => !r.fork && !r.archived)
+    .sort((a, b) => b.pushed_at.localeCompare(a.pushed_at))
+    .map(r => ({ name: r.name, owner: r.owner.login, url: r.html_url, description: r.description,
+      language: r.language, stars: r.stargazers_count, pushed_at: r.pushed_at })),
+}));
+getJSON('/api/github').catch(fromBrowser).then(d => {
   $('gh-followers').textContent = fmt(d.followers);
   $('gh-following').textContent = fmt(d.following);
   const repos = d.repos;
