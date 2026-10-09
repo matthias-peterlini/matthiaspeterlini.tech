@@ -170,6 +170,7 @@ h2 {
   align-self: flex-start; font-weight: 600; color: var(--t); text-decoration: none;
   padding: 8px 16px; margin: -8px -16px; border-radius: 20px; transition: background .2s;
 }
+.links { display: flex; flex-wrap: wrap; gap: 8px 32px; }
 .link:hover { background: color-mix(in oklch, var(--t) 14%, transparent); }
 .btn { overflow-wrap: anywhere; }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; }
@@ -220,6 +221,7 @@ i[data-l="4"] { background: var(--primary); }
 .repo { display: block; padding: 16px 18px; border-radius: 18px; background: var(--surface-hi); text-decoration: none; transition: border-radius .4s var(--spring); }
 .repo:hover { border-radius: 8px; }
 .repo b { display: block; font-weight: 600; }
+.repo .owner { color: var(--t3); font-weight: 500; }
 .repo p { color: var(--muted); font-size: .85rem; margin-top: 4px; }
 .repo small { color: var(--muted); font-size: .8rem; }
 [hidden] { display: none !important; }
@@ -277,7 +279,10 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
         <h3>NexusMC</h3>
         <p>Un launcher open source per Minecraft: Java Edition. Accesso ufficiale con Microsoft, istanze isolate con Fabric, Quilt, Forge e NeoForge, un gestore di mod Modrinth, un copilota IA per il modding, amici e hosting dei mondi.</p>
         <ul class="tags"><li>Rust</li><li>Tauri</li><li>React</li><li>TypeScript</li></ul>
-        <a class="link" href="https://nexusmc.online" target="_blank" rel="noopener">nexusmc.online <span aria-hidden="true">↗</span></a>
+        <div class="links">
+          <a class="link" href="https://nexusmc.online" target="_blank" rel="noopener">nexusmc.online <span aria-hidden="true">↗</span></a>
+          <a class="link" href="https://github.com/TiclyMusic/nexus-client" target="_blank" rel="noopener">Codice su GitHub <span aria-hidden="true">↗</span></a>
+        </div>
       </article>
 
       <article class="card reveal" style="--t: var(--t1)">
@@ -330,7 +335,7 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
       </div>
       <div class="stats reveal">
         <div class="stat"><b id="gh-contrib">—</b><span>contributi nell'ultimo anno</span></div>
-        <div class="stat"><b id="gh-repos">—</b><span>repository pubblici</span></div>
+        <div class="stat"><b id="gh-repos">—</b><span>repository pubblici, con ticly</span></div>
         <div class="stat"><b id="gh-followers">—</b><span>follower</span></div>
         <div class="stat"><b id="gh-following">—</b><span>seguiti</span></div>
       </div>
@@ -340,7 +345,10 @@ footer { padding-block: 48px 64px; color: var(--muted); font-size: .9rem; border
         <ul class="langs" id="langs"></ul>
         <div class="repos" id="repos"></div>
       </div>
-      <div class="reveal"><a class="btn tonal" href="https://github.com/matthias-peterlini" target="_blank" rel="noopener">Apri il mio profilo GitHub <span aria-hidden="true">↗</span></a></div>
+      <div class="cta reveal">
+        <a class="btn tonal" href="https://github.com/matthias-peterlini" target="_blank" rel="noopener">Apri il mio profilo GitHub <span aria-hidden="true">↗</span></a>
+        <a class="btn tonal" href="https://github.com/TiclyMusic" target="_blank" rel="noopener">ticly su GitHub <span aria-hidden="true">↗</span></a>
+      </div>
     </div>
   </section>
 
@@ -401,16 +409,20 @@ getJSON('/api/contributions').then(d => {
   window.renderCity?.(days);
 }).catch(() => {});
 
-getJSON(`https://api.github.com/users/${GH}`).then(u => {
-  $('gh-repos').textContent = fmt(u.public_repos);
-  $('gh-followers').textContent = fmt(u.followers);
-  $('gh-following').textContent = fmt(u.following);
-}).catch(() => {});
-
+// Profile counts and repos (mine + the ticly organisation's) come from the Worker, which caches
+// GitHub's answer, so visitors never run into GitHub's per-IP rate limit.
 const LANG = { JavaScript: '#f1e05a', TypeScript: '#3178c6', Kotlin: '#a97bff', Rust: '#dea584', Python: '#3572a5',
   HTML: '#e34c26', CSS: '#663399', GDScript: '#355570', Java: '#b07219', 'C++': '#f34b7d', Swift: '#f05138' };
-getJSON(`https://api.github.com/users/${GH}/repos?sort=pushed&per_page=100`).then(all => {
-  const repos = all.filter(r => !r.fork);
+// Shown when a repo has no description on GitHub.
+const ABOUT = {
+  "nexus-client": "Nexus Launcher: launcher open-source per Minecraft: Java Edition, fatto con Tauri, Rust e React.",
+  "rustos": "Un kernel x86_64 fatto in casa, scritto in Rust, che si avvia in QEMU con la sua shell.",
+};
+getJSON('/api/github').then(d => {
+  $('gh-followers').textContent = fmt(d.followers);
+  $('gh-following').textContent = fmt(d.following);
+  const repos = d.repos;
+  $('gh-repos').textContent = fmt(repos.length);
   if (!repos.length) return;
   const count = {};
   repos.forEach(r => r.language && (count[r.language] = (count[r.language] || 0) + 1));
@@ -419,9 +431,12 @@ getJSON(`https://api.github.com/users/${GH}/repos?sort=pushed&per_page=100`).the
   const col = l => LANG[l] || 'var(--muted)';
   $('langbar').innerHTML = langs.map(([l, c]) => `<span style="flex:${c};background:${col(l)}"></span>`).join('');
   $('langs').innerHTML = langs.map(([l, c]) => `<li style="--c:${col(l)}">${esc(l)} <small>${Math.round(c / sum * 100)}%</small></li>`).join('');
-  $('repos').innerHTML = repos.slice(0, 6).map(r => `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">
-    <b>${esc(r.name)}</b>${r.description ? `<p>${esc(r.description)}</p>` : ''}
-    <small>${r.language ? esc(r.language) + ' · ' : ''}★ ${r.stargazers_count} · aggiornato ${new Date(r.pushed_at).toLocaleDateString('it', { month: 'short', year: 'numeric' })}</small></a>`).join('');
+  $('repos').innerHTML = repos.slice(0, 6).map(r => {
+    const about = r.description || ABOUT[r.name];
+    return `<a class="repo" href="${esc(r.url)}" target="_blank" rel="noopener">
+    <b>${r.owner === d.org ? '<span class="owner">ticly /</span> ' : ''}${esc(r.name)}</b>${about ? `<p>${esc(about)}</p>` : ''}
+    <small>${r.language ? esc(r.language) + ' · ' : ''}★ ${r.stars} · aggiornato ${new Date(r.pushed_at).toLocaleDateString('it', { month: 'short', year: 'numeric' })}</small></a>`;
+  }).join('');
   $('gh-code').hidden = false;
 }).catch(() => {});
 
