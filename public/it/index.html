@@ -431,7 +431,7 @@ getJSON('/api/github').then(d => {
   const col = l => LANG[l] || 'var(--muted)';
   $('langbar').innerHTML = langs.map(([l, c]) => `<span style="flex:${c};background:${col(l)}"></span>`).join('');
   $('langs').innerHTML = langs.map(([l, c]) => `<li style="--c:${col(l)}">${esc(l)} <small>${Math.round(c / sum * 100)}%</small></li>`).join('');
-  $('repos').innerHTML = repos.slice(0, 6).map(r => {
+  $('repos').innerHTML = repos.map(r => {
     const about = r.description || ABOUT[r.name];
     return `<a class="repo" href="${esc(r.url)}" target="_blank" rel="noopener">
     <b>${r.owner === d.org ? '<span class="owner">ticly /</span> ' : ''}${esc(r.name)}</b>${about ? `<p>${esc(about)}</p>` : ''}
