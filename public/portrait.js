@@ -39,10 +39,11 @@
 
     // one particle per grid cell: offset from its home cell, velocity, how visible it is, and a drift direction
     const N = GW * GH, ox = new Float32Array(N), oy = new Float32Array(N), vx = new Float32Array(N), vy = new Float32Array(N);
-    const vis = new Float32Array(N), ang = new Float32Array(N), spd = new Float32Array(N), rx = new Float32Array(N), ry = new Float32Array(N);
+    const vis = new Float32Array(N), ang = new Float32Array(N), spd = new Float32Array(N), rx = new Float32Array(N), ry = new Float32Array(N), few = new Uint8Array(N);
     for (let i = 0; i < N; i++) {
       ang[i] = Math.random() * Math.PI * 2; spd[i] = .4 + Math.random() * .9;
-      rx[i] = Math.random(); ry[i] = .04 + Math.random() * .92;   // where it settles once scattered, as a share of the screen
+      rx[i] = Math.random(); few[i] = Math.random() < .35 ? 1 : 0;   // only about a third of the dust stays once scattered
+       ry[i] = .04 + Math.random() * .92;   // where it settles once scattered, as a share of the screen
       if (!still) { const r = 300 + Math.random() * 900; ox[i] = Math.cos(ang[i]) * r; oy[i] = Math.sin(ang[i]) * r; }
     }
 
@@ -74,7 +75,7 @@
       const k = (r >> 3) << 11 | (g >> 3) << 6 | (b >> 3) << 1 | up;
       let c = colors.get(k);
       if (!c) {
-        const m = (r + g + b) / 3, f = v => Math.max(0, Math.min(255, (m + (v - m) * 1.7) * (up ? 1.3 : 1.2) + (up ? 150 : 62))) | 0;
+        const m = (r + g + b) / 3, f = v => Math.max(0, Math.min(255, (m + (v - m) * 1.15) * (up ? 1.3 : 1.2) + (up ? 150 : 62))) | 0;
         c = `rgb(${f(r)},${f(g)},${f(b)})`;
         colors.set(k, c);
       }
@@ -120,7 +121,7 @@
         // rim light: cells on the silhouette's edge glow, as if lit from behind
         const c = i % GW, edge = c === 0 || c === GW - 1 || px_[i * 4 - 1] <= 60 || px_[i * 4 + 7] <= 60 || px_[i * 4 - GW * 4 + 3] <= 60 || px_[i * 4 + GW * 4 + 3] <= 60;
         const sz = cell * (edge ? .74 : .55 + l * .3) * vis[i];
-        ctx.globalAlpha = (1 - e * .5) * vis[i] * (1 - (i / GW | 0) / GH * .5 * (1 - e));   // the spotlight fades towards the feet
+        ctx.globalAlpha = (1 - e * (few[i] ? .55 : 1)) * vis[i] * (1 - (i / GW | 0) / GH * .5 * (1 - e));   // the spotlight fades towards the feet
         ctx.fillStyle = col(r, g, b, edge ? 1 : 0);
         ctx.fillRect(hx + ox[i] + (cell - sz) / 2, hy + oy[i] + (cell - sz) / 2, sz, sz);
       }
