@@ -22,6 +22,7 @@ My personal site: hand-written HTML, CSS and JavaScript served by a Cloudflare W
 - **Black and chrome**: a monochrome page, wide *Archivo* display type with a chrome gradient, hairlines instead of cards.
 - **Intro**: on the first visit of a session, under a spotlight the letters of my name tumble out of a single point and fly into place in the hero. Any click, key or scroll skips it.
 - **Minecraft portrait**: my skin (El_Matthiass) is rendered in 3D off-screen by skinview3d and redrawn as thousands of square particles. They assemble after the intro and dodge the pointer; scroll down and they burst into dust that stays behind the whole page. The head follows the pointer. Drag to turn it.
+- **What I do**: the section pins and scrolling slides through my roles sideways (founder of ticly, developer, student), with glowing titles and huge ghost words drifting behind them.
 - **Bending project strip**: scrolling slides the project covers sideways on a WebGL strip. They curl away at the edges and split into RGB while moving, with the details of the centred project underneath.
 - **Projects**: ticly, NexusMC, Guess the Song, ArcBase, JustOS and the Better for YouTube Music, YouTube and Spotify extensions, each with its cover and links.
 - **Live GitHub data**: profile stats, top languages, recently pushed repositories (mine and the [ticly-it](https://github.com/ticly-it) organisation's), and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
@@ -52,6 +53,7 @@ public/
 ├── intro.js            first-visit intro
 ├── portrait.js         particle portrait of my Minecraft skin (skin.png)
 ├── strip.js            WebGL project strip
+├── path.js             the sideways "What I do" section
 ├── city.js             3D contribution map, shared by both languages
 ├── skin.png            my Minecraft skin
 ├── it/index.html       Italian page

@@ -47,7 +47,7 @@
       if (!still) { const r = 300 + Math.random() * 900; ox[i] = Math.cos(ang[i]) * r; oy[i] = Math.sin(ang[i]) * r; }
     }
 
-    let px_ = null, W = 0, H = 0, cell = 0, x0 = 0, y0 = 0, dpr = 1, px = -1e4, py = -1e4, visible = true, running = false;
+    let boot = 0, px_ = null, W = 0, H = 0, cell = 0, x0 = 0, y0 = 0, dpr = 1, px = -1e4, py = -1e4, visible = true, running = false;
     let yaw = 0, pitch = 0, ty = 0, tp = 0, spin = 0, spinV = 0, drag = null;
     function resize() {
       dpr = Math.min(devicePixelRatio || 1, 2);
@@ -92,9 +92,10 @@
 
       const now = performance.now(), steps = Math.max(1, Math.min(30, Math.round((now - last) / 16.7)));   // physics runs at 60 Hz whatever the frame rate
       const out = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / (H * .7)));   // 0 in view → 1 scrolled past
-      const e = out * out * (3 - 2 * out), held = out > .25;   // once it starts to scatter, the figure stops changing shape
+      const e = out * out * (3 - 2 * out), held = out > .25 && boot > 40;   // once it scatters the figure stops changing (after a first look, if the page opened scrolled down)
+      boot++;
       v.animation?.update(body, Math.min(now - last, 50) / 1000); last = now;
-      if (!held || !px_) {
+      if (!held) {
         v.render();
         sx.clearRect(0, 0, GW, GH);
         sx.drawImage(src, 0, 0, GW, GH);

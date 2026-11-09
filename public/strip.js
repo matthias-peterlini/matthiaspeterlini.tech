@@ -124,7 +124,7 @@
     cv.width = Math.round(W * r); cv.height = Math.round(H * r);
     gl.viewport(0, 0, cv.width, cv.height);
     const phone = W < 720;
-    cw = Math.min(W * (phone ? .9 : .52), 760, H * 1.7); ch = cw / PA; step = cw * (phone ? 1.05 : 1.08);
+    cw = Math.min(W * (phone ? .9 : .52), 760, H * 1.7); ch = cw / PA; step = cw * (phone ? 1.05 : 1.035);
     flat = phone ? cw / W : .3;
     wake();
   }

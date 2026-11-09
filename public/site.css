@@ -237,3 +237,56 @@ footer a:hover { color: var(--fg); }
   *, *::before { transition: none !important; animation: none !important; }
   .js .reveal { opacity: 1; translate: none; }
 }
+
+/* ---------- what I do (path.js): pinned, the panels slide sideways ---------- */
+.path { position: relative; padding: 0; }
+.path-panel { position: relative; isolation: isolate; width: min(1180px, 100% - 2 * var(--pad)); margin-inline: auto; padding-block: clamp(56px, 9vw, 110px); }
+.path-ghost {
+  position: absolute; z-index: -1; inset: 0 calc(50% - 50vw); display: flex; flex-direction: column; justify-content: center;
+  overflow: hidden; pointer-events: none; user-select: none;
+  font-size: clamp(5.5rem, 21vw, 22rem); font-weight: 900; font-stretch: 125%; line-height: .84; letter-spacing: -.03em; text-transform: uppercase; white-space: nowrap;
+  color: #ffffff10; filter: blur(2px);
+}
+.path-ghost span { padding-left: 4vw; translate: calc(var(--p, 0) * 34vw) 0; }
+.path-ghost span + span { align-self: flex-end; padding: 0 6vw 0 0; color: #ffffff0a; translate: calc(var(--p, 0) * -22vw) 0; }
+.path-head h2, .path-title {
+  background: none; color: #f6f6f6; -webkit-text-fill-color: currentColor;
+  text-shadow: 0 0 2px #fff8, 0 0 22px #ffffff70, 0 0 70px #ffffff30;   /* lit, not chrome: as if under the same spotlight */
+}
+.path-head h2 { margin: 0; font-size: clamp(3rem, 12vw, 11rem); line-height: .86; }
+.path-head h2::before { text-shadow: none; }
+.path-kicker { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; font-size: .72rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.path-kicker span:first-child { padding: 5px 12px; border: 1px solid var(--line-hi); border-radius: 999px; color: var(--fg); }
+.path-kicker span + span::before { content: ""; display: inline-block; width: 28px; height: 1px; margin: 0 14px 3px 0; background: var(--line-hi); vertical-align: middle; }
+.path-title { margin-top: 18px; font-size: clamp(2.6rem, 9.5vw, 8.5rem); font-weight: 800; font-stretch: 125%; line-height: .88; letter-spacing: -.02em; text-transform: uppercase; }
+.path-lede { max-width: 54ch; margin-top: 20px; font-size: clamp(1rem, 1.5vw, 1.2rem); color: var(--fg); }
+.path-cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px clamp(20px, 4vw, 56px); margin-top: clamp(26px, 4.5vw, 52px); }
+.path-cols div { padding-top: 12px; border-top: 1px solid var(--line-hi); }
+.path-cols dt { font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.path-cols dd { margin: 6px 0 0; color: var(--fg); line-height: 1.5; }
+.path-nav { display: flex; flex-wrap: wrap; gap: 8px; width: min(1180px, 100% - 2 * var(--pad)); margin: 0 auto; }
+.path-nav a {
+  display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border: 1px solid var(--line-hi); border-radius: 999px; color: var(--muted);
+  font-size: .68rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; text-decoration: none; transition: background .3s, color .3s, border-color .3s;
+}
+.path-nav a i { font-style: normal; color: var(--dim); }
+.path-nav a:hover { color: var(--fg); border-color: var(--muted); }
+.path-nav a.on { background: #fff; border-color: #fff; color: #000; }
+.path-nav a.on i { color: #0008; }
+
+.path.on { height: calc(100svh + (var(--n) - 1) * 85svh); }
+.path.on .path-pin { position: sticky; top: 0; height: 100svh; overflow: hidden; }
+.path.on .path-track { display: flex; height: 100%; will-change: transform; }
+.path.on .path-panel { flex: 0 0 100%; width: auto; margin: 0; display: flex; flex-direction: column; justify-content: center; padding: 84px max(var(--pad), (100% - 1180px) / 2) 96px; }
+.path.on .path-ghost { inset: 0; }
+.path.on .path-body, .path.on .path-head h2 { opacity: var(--o, 1); translate: calc(var(--p, 0) * -14vw) 0; }
+.path.on .path-nav { position: absolute; left: 0; right: 0; bottom: clamp(20px, 4svh, 36px); }
+@media (max-width: 720px) {
+  .path-cols { grid-template-columns: 1fr; gap: 12px; }
+  .path-cols dd { font-size: .92rem; }
+  .path-title { font-stretch: 112%; font-size: clamp(2.3rem, 11vw, 4rem); }
+  .path.on .path-panel { padding-block: 72px 84px; }
+  .path-nav { flex-wrap: nowrap; gap: 6px; }
+  .path-nav a { padding: 8px 12px; letter-spacing: .1em; }
+  .path-nav a i { display: none; }
+}
