@@ -1,4 +1,4 @@
-// First-visit intro: a dot under a spotlight grows into "!", the letters of my name tumble out of it,
+// First-visit intro: under a spotlight the letters of my name tumble out of a single point,
 // then the word flies into its place in the hero. Once per session; any click, key or scroll skips it.
 // The <head> decides whether to play it and adds .intro-on to <html> so the hero never flashes first.
 (async () => {
@@ -19,24 +19,18 @@
   const dx = innerWidth / 2 - (r.left + r.width / 2), dy = innerHeight / 2 - (r.top + r.height / 2);
   const start = `translate(${dx}px, ${dy}px) scale(${s0})`;
   word.style.transform = start;
-  const bang = document.createElement('div'); bang.className = 'intro-bang';
-  const cap = parseFloat(css.fontSize) * .7 * s0;
-  bang.innerHTML = `<i class="stem" style="height:${cap * .7}px;width:${cap * .16}px"></i><i class="dot" style="width:${cap * .17}px;height:${cap * .17}px;margin-top:${cap * .12}px"></i>`;
-  ov.append(bang);
   body.append(ov, word);
 
   const letters = [...word.children];
   letters.forEach(l => l.style.opacity = 0);
   const timers = [], at = (ms, f) => timers.push(setTimeout(f, ms));
   const ease = 'cubic-bezier(.2, 1.25, .35, 1)';
-  const stem = bang.querySelector('.stem'), dot = bang.querySelector('.dot');
   const anims = [];
 
   at(80, () => ov.classList.add('lit'));
-  at(150, () => anims.push(dot.animate([{ scale: 0 }, { scale: 1 }], { duration: 380, easing: ease, fill: 'both' })));
-  at(600, () => anims.push(stem.animate([{ scale: '1 0' }, { scale: '1 1' }], { duration: 320, easing: ease, fill: 'both' })));
-  at(1000, () => {
-    const b = bang.getBoundingClientRect(), bx = b.left + b.width / 2, by = b.top + b.height / 2;
+  const T0 = 350;
+  at(T0, () => {
+    const bx = innerWidth / 2, by = innerHeight / 2;
     letters.forEach((l, i) => {
       const lr = l.getBoundingClientRect();
       const fx = (bx - (lr.left + lr.width / 2)) / s0, fy = (by - (lr.top + lr.height / 2)) / s0;
@@ -47,9 +41,8 @@
         { opacity: 1, transform: 'none' },
       ], { duration: 720, delay: i * 85, easing: ease, fill: 'both' }));
     });
-    anims.push(bang.animate([{ opacity: 1, scale: 1 }, { opacity: 0, scale: .4 }], { duration: 500, delay: letters.length * 85 + 200, fill: 'both' }));
   });
-  const landAt = 1000 + letters.length * 85 + 720 + 200;
+  const landAt = T0 + letters.length * 85 + 720 + 200;
   at(landAt, () => {
     ov.classList.add('out');
     root.classList.remove('intro-on');

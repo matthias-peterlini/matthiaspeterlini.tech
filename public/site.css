@@ -227,10 +227,6 @@ footer a:hover { color: var(--fg); }
 .intro.out::before { opacity: 0; scale: 2.4; }
 .intro-word { position: fixed; z-index: 101; display: flex; justify-content: center; transform-origin: 50% 50%; }
 .intro-word span { display: inline-block; }
-.intro-bang { position: absolute; left: 50%; top: 50%; width: 12px; translate: -50% -50%; }
-.intro-bang i { display: block; margin-inline: auto; background: #fff; border-radius: 3px; }
-.intro-bang .stem { width: 9px; height: 46px; border-radius: 5px 5px 2px 2px; transform-origin: 50% 100%; scale: 1 0; }
-.intro-bang .dot { width: 10px; height: 10px; margin-top: 9px; border-radius: 50%; box-shadow: 0 0 24px #fff8; }
 .intro-on .top, .intro-on .hero > *:not(#portrait) { opacity: 0; }
 .top, .hero > * { transition: opacity .9s ease; }
 
