@@ -255,6 +255,15 @@
         <div class="stat"><b id="gh-followers">—</b><span>follower</span></div>
         <div class="stat"><b id="gh-following">—</b><span>seguiti</span></div>
       </div>
+      <div class="ring-wrap" id="ring" hidden>
+        <div class="ring-stage">
+          <div class="ring">
+            <div class="ring-label" aria-hidden="true"><b class="ring-count">—</b><span>repository</span></div>
+          </div>
+          <p class="ring-cap" aria-live="polite"></p>
+          <p class="ring-tip">Scorri o trascina per girare l'anello</p>
+        </div>
+      </div>
       <div class="panel reveal" id="gh-code" hidden>
         <h3>Linguaggi e repository recenti</h3>
         <div class="langbar" id="langbar"></div>
@@ -292,6 +301,7 @@
 <script src="/city.js"></script>
 <script src="/strip.js"></script>
 <script src="/path.js"></script>
+<script src="/ring.js"></script>
 <script src="/portrait.js"></script>
 <script src="/intro.js"></script>
 <script>
@@ -358,6 +368,7 @@ getJSON('/api/github').catch(fromBrowser).then(d => {
     <small>${r.language ? esc(r.language) + ' · ' : ''}★ ${r.stars} · aggiornato ${new Date(r.pushed_at).toLocaleDateString('it', { month: 'short', year: 'numeric' })}</small></a>`;
   }).join('');
   $('gh-code').hidden = false;
+  window.repoRing?.();
 }).catch(() => {});
 
 // Reveal on scroll

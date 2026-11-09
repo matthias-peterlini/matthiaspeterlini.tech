@@ -25,7 +25,7 @@ My personal site: hand-written HTML, CSS and JavaScript served by a Cloudflare W
 - **What I do**: the section pins and scrolling slides through my roles sideways (founder of ticly, developer, student), with glowing titles and huge ghost words drifting behind them.
 - **Bending project strip**: scrolling slides the project covers sideways on a WebGL strip. They curl away at the edges and split into RGB while moving, with the details of the centred project underneath.
 - **Projects**: ticly, NexusMC, Guess the Song, ArcBase, JustOS and the Better for YouTube Music, YouTube and Spotify extensions, each with its cover and links.
-- **Live GitHub data**: profile stats, top languages, recently pushed repositories (mine and the [ticly-it](https://github.com/ticly-it) organisation's), and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
+- **Live GitHub data**: profile stats, top languages, every public repository (mine and the [ticly-it](https://github.com/ticly-it) organisation's) on a **3D ring** that turns as you scroll or drag, and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
 - **English and Italian**: visitors in Italy (or with an Italian browser) land on `/it/` automatically. The language switch remembers their choice.
 - **Considerate by default**: respects `prefers-reduced-motion`, semantic markup and alt text, JSON-LD profile data, Open Graph cards, `hreflang` and a sitemap.
 
@@ -59,6 +59,7 @@ public/
 ├── portrait.js         particle portrait of my Minecraft skin (skin.png)
 ├── strip.js            WebGL project strip
 ├── path.js             the sideways "What I do" section
+├── ring.js             the ring of GitHub repositories
 ├── city.js             3D contribution map, shared by both languages
 ├── skin.png            my Minecraft skin
 ├── it/index.html       Italian page
