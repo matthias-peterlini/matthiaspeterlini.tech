@@ -1,5 +1,5 @@
 const USER = 'matthias-peterlini';
-const ORG = 'TiclyMusic';
+const ORG = 'ticly-it';
 // Visitors from these countries (or with an Italian browser) land on /it/.
 const ITALIAN = new Set(['IT', 'SM', 'VA']);
 const YEAR = 60 * 60 * 24 * 365;
@@ -103,7 +103,7 @@ async function loadGitHub(env) {
   const [user, mine, org] = await Promise.all([
     get(`/users/${USER}`),
     get(`/users/${USER}/repos?sort=pushed&per_page=100`),
-    get(`/orgs/${ORG}/repos?sort=pushed&per_page=100`),
+    get(`/orgs/${ORG}/repos?sort=pushed&per_page=100`).catch(() => []),   // a renamed or missing org must not empty the section
   ]);
   const repos = [...mine, ...org]
     .filter(r => !r.fork && !r.archived)

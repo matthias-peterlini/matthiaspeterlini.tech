@@ -111,7 +111,7 @@
         <ul class="tags"><li>Rust</li><li>Tauri</li><li>React</li><li>TypeScript</li></ul>
         <div class="links">
           <a class="link" href="https://nexusmc.online" target="_blank" rel="noopener">nexusmc.online <span aria-hidden="true">↗</span></a>
-          <a class="link" href="https://github.com/TiclyMusic/nexus-client" target="_blank" rel="noopener">Source on GitHub <span aria-hidden="true">↗</span></a>
+          <a class="link" href="https://github.com/ticly-it/nexus-client" target="_blank" rel="noopener">Source on GitHub <span aria-hidden="true">↗</span></a>
         </div>
       </article>
 
@@ -207,7 +207,7 @@
       </div>
       <div class="cta reveal">
         <a class="btn tonal" href="https://github.com/matthias-peterlini" target="_blank" rel="noopener">Open my GitHub profile <span aria-hidden="true">↗</span></a>
-        <a class="btn tonal" href="https://github.com/TiclyMusic" target="_blank" rel="noopener">ticly on GitHub <span aria-hidden="true">↗</span></a>
+        <a class="btn tonal" href="https://github.com/ticly-it" target="_blank" rel="noopener">ticly on GitHub <span aria-hidden="true">↗</span></a>
       </div>
     </div>
   </section>
@@ -283,11 +283,11 @@ const ABOUT = {
 };
 // If the Worker can't reach GitHub either (Cloudflare's shared IPs get rate-limited too),
 // ask GitHub from the visitor's browser, which has its own hourly allowance.
-const ORG = 'TiclyMusic';
+const ORG = 'ticly-it';
 const fromBrowser = () => Promise.all([
   getJSON(`https://api.github.com/users/${GH}`),
   getJSON(`https://api.github.com/users/${GH}/repos?sort=pushed&per_page=100`),
-  getJSON(`https://api.github.com/orgs/${ORG}/repos?sort=pushed&per_page=100`),
+  getJSON(`https://api.github.com/orgs/${ORG}/repos?sort=pushed&per_page=100`).catch(() => []),
 ]).then(([user, mine, org]) => ({
   followers: user.followers, following: user.following, org: ORG,
   repos: [...mine, ...org].filter(r => !r.fork && !r.archived)

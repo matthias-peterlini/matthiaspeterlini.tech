@@ -33,7 +33,7 @@
     attribute vec2 aPos;
     uniform vec2 uView;   // stage size, css px
     uniform vec4 uRect;   // centre x, centre y, width, height (css px, origin at stage centre)
-    uniform float uVel, uHover;
+    uniform float uVel, uHover, uFlat;
     varying vec2 vUv;
     void main() {
       vUv = aPos;
@@ -42,7 +42,7 @@
       float ax = abs(nx);
       p.y += nx * ax * ax * uView.y * .13;             // the strip rises to the right, sinks to the left
       p.y += uVel * sin(aPos.x * 3.14159) * uRect.w * .22;  // bows while it moves
-      float f = max(ax - .3, 0.);
+      float f = max(ax - uFlat, 0.);                   // flat in the middle (on phones, the whole centred card)
       float z = -f * f * uRect.z * 1.4 - abs(uVel) * 60.; // and folds away at the edges, the middle stays flat
       float d = uView.y * 1.207;                       // camera distance for a 45° vertical fov
       gl_Position = vec4(p.x / (uView.x * .5), p.y / (uView.y * .5), 0., (d - z) / d);
@@ -65,7 +65,7 @@
   if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { undo(); return; }
   gl.useProgram(prog);
   const U = {};
-  ['uView', 'uRect', 'uVel', 'uHover', 'uTex', 'uFit', 'uSize', 'uShift', 'uAlpha', 'uRadius']
+  ['uView', 'uRect', 'uVel', 'uHover', 'uFlat', 'uTex', 'uFit', 'uSize', 'uShift', 'uAlpha', 'uRadius']
     .forEach(k => U[k] = gl.getUniformLocation(prog, k));
 
   // subdivided unit plane so the vertex shader can bend it
@@ -117,13 +117,15 @@
 
   // ---------- layout, scroll and input ----------
   const PA = 1.9;   // cover shape, wide like the screenshots
-  let W = 0, H = 0, cw = 0, ch = 0, step = 0, cur = 0, target = 0, vel = 0, active = -1, ptr = null, raf = 0, visible = false;
+  let W = 0, H = 0, flat = .3, cw = 0, ch = 0, step = 0, cur = 0, target = 0, vel = 0, active = -1, ptr = null, raf = 0, visible = false;
   function resize() {
     const r = Math.min(devicePixelRatio || 1, 2);
     W = cv.clientWidth; H = cv.clientHeight;
     cv.width = Math.round(W * r); cv.height = Math.round(H * r);
     gl.viewport(0, 0, cv.width, cv.height);
-    cw = Math.min(W * (W < 720 ? .8 : .52), 760, H * 1.7); ch = cw / PA; step = cw * 1.08;
+    const phone = W < 720;
+    cw = Math.min(W * (phone ? .9 : .52), 760, H * 1.7); ch = cw / PA; step = cw * (phone ? 1.05 : 1.08);
+    flat = phone ? cw / W : .3;
     wake();
   }
   const range = () => strip.offsetHeight - innerHeight;
@@ -188,6 +190,7 @@
     gl.clear(gl.COLOR_BUFFER_BIT);
     gl.uniform2f(U.uView, W, H);
     gl.uniform1f(U.uVel, vel);
+    gl.uniform1f(U.uFlat, flat);
     gl.uniform1f(U.uRadius, Math.min(28, cw * .06));
     let busy = Math.abs(target - cur) > .001 || Math.abs(vel) > .002;
     items.forEach((it, k) => {
