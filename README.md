@@ -9,20 +9,20 @@
 
 <p align="center">
   <img alt="Cloudflare Workers" src="https://img.shields.io/badge/Cloudflare-Workers-F38020?logo=cloudflare&logoColor=white">
-  <img alt="No build step" src="https://img.shields.io/badge/build_step-none-4fd8eb">
-  <img alt="No frameworks" src="https://img.shields.io/badge/dependencies-0_at_runtime-4fd8eb">
-  <img alt="Material 3 Expressive" src="https://img.shields.io/badge/design-Material_3_Expressive-c3c0ff">
+  <img alt="No build step" src="https://img.shields.io/badge/build_step-none-111111">
+  <img alt="No frameworks" src="https://img.shields.io/badge/frameworks-none-111111">
 </p>
 
 ---
 
-My personal site: a single hand-written HTML page served by a Cloudflare Worker. No framework, no bundler, no client-side dependencies, just HTML, CSS and a little JavaScript.
+My personal site: hand-written HTML, CSS and JavaScript served by a Cloudflare Worker. No framework and no bundler; the only library is [skinview3d](https://github.com/bs-community/skinview3d), loaded from a CDN for the hero portrait.
 
 ## Highlights
 
-- **Material 3 Expressive look**: spring animations, shape-morphing cards and buttons, and a wavy line under my name drawn on a `<canvas>` that gets livelier while the pointer moves.
-- **Variable type**: *Roboto Flex*. The surname morphs between weights and widths on hover, or every two seconds on touch screens.
-- **Light and dark**: follows the system theme, with a tonal accent per project card.
+- **Black and chrome**: a monochrome page, wide *Archivo* display type with a chrome gradient, hairlines instead of cards.
+- **Intro**: on the first visit of a session, a dot under a spotlight grows into "!", the letters of my name tumble out of it and fly into place in the hero. Any click, key or scroll skips it.
+- **Minecraft portrait**: my skin (El_Matthiass) is rendered in 3D off-screen by skinview3d and redrawn as thousands of square particles. They assemble after the intro, dodge the pointer and drift apart as you scroll away, and the head follows the pointer. Drag to turn it.
+- **Bending project strip**: scrolling slides the project covers sideways on a WebGL strip. They curl away at the edges and split into RGB while moving, with the details of the centred project underneath.
 - **Live GitHub data**: profile stats, top languages, recently pushed repositories, and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
 - **English and Italian**: visitors in Italy (or with an Italian browser) land on `/it/` automatically. The language switch remembers their choice.
 - **Considerate by default**: respects `prefers-reduced-motion`, semantic markup and alt text, JSON-LD profile data, Open Graph cards, `hreflang` and a sitemap.
@@ -45,10 +45,14 @@ GitHub has no public API for the contribution calendar, so the Worker reads the 
 
 ```
 public/
-├── index.html          English page (HTML, CSS and JS in one file)
+├── index.html          English page
+├── site.css            styles shared by both languages
+├── intro.js            first-visit intro
+├── portrait.js         particle portrait of my Minecraft skin (skin.png)
+├── strip.js            WebGL project strip
 ├── city.js             3D contribution map, shared by both languages
 ├── it/index.html       Italian page
-├── covers/             project screenshots (WebP)
+├── covers/             project covers
 ├── og.png              social preview image
 ├── favicon.svg
 ├── robots.txt
