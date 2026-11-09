@@ -68,12 +68,12 @@
     document.addEventListener('pointerleave', () => { px = py = -1e4; });
 
     const colors = new Map();
-    const col = (r, g, b) => {                        // lift the (mostly black) skin into readable silver
-      const k = (r >> 3) << 10 | (g >> 3) << 5 | (b >> 3);
+    const col = (r, g, b, up = 0) => {               // the skin's own colours, more saturated and lifted out of the black
+      const k = (r >> 3) << 11 | (g >> 3) << 6 | (b >> 3) << 1 | up;
       let c = colors.get(k);
       if (!c) {
-        const l = (r + g + b) / 765, f = .55;
-        c = `rgb(${92 + r * f + l * 60 | 0},${96 + g * f + l * 60 | 0},${110 + b * f + l * 60 | 0})`;
+        const m = (r + g + b) / 3, f = v => Math.max(0, Math.min(255, (m + (v - m) * 1.7) * (up ? 1.3 : 1.2) + (up ? 150 : 62))) | 0;
+        c = `rgb(${f(r)},${f(g)},${f(b)})`;
         colors.set(k, c);
       }
       return c;
@@ -97,7 +97,7 @@
       const out = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / (H * .8)));   // 0 in view → 1 scrolled past
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
-      const R = 90 + cell * 4, R2 = R * R;
+      const R = 40 + cell * 2, R2 = R * R;
       for (let i = 0; i < N; i++) {
         const a = px_[i * 4 + 3];
         vis[i] += ((a > 60 ? 1 : 0) - vis[i]) * Math.min(1, .25 * steps);
@@ -107,16 +107,16 @@
         for (let s = 0; s < steps; s++) {
           vx[i] += (tx - ox[i]) * .045; vy[i] += (tyy - oy[i]) * .045;
           const dx = hx + ox[i] - px, dy = hy + oy[i] - py, d2 = dx * dx + dy * dy;
-          if (d2 < R2) { const f = (1 - d2 / R2) * 5 / Math.sqrt(d2 + 1); vx[i] += dx * f; vy[i] += dy * f; }
+          if (d2 < R2) { const f = (1 - d2 / R2) * 1.2 / Math.sqrt(d2 + 1); vx[i] += dx * f; vy[i] += dy * f; }
           vx[i] *= .82; vy[i] *= .82; ox[i] += vx[i]; oy[i] += vy[i];
         }
         if (vis[i] < .03) continue;
         const r = px_[i * 4], g = px_[i * 4 + 1], b = px_[i * 4 + 2], l = (r + g + b) / 765;
         // rim light: cells on the silhouette's edge glow, as if lit from behind
         const c = i % GW, edge = c === 0 || c === GW - 1 || px_[i * 4 - 1] <= 60 || px_[i * 4 + 7] <= 60 || px_[i * 4 - GW * 4 + 3] <= 60 || px_[i * 4 + GW * 4 + 3] <= 60;
-        const sz = cell * (edge ? .74 : .42 + l * .38) * vis[i];
+        const sz = cell * (edge ? .74 : .55 + l * .3) * vis[i];
         ctx.globalAlpha = (1 - out * .85) * vis[i] * (1 - (i / GW | 0) / GH * .5);   // the spotlight fades towards the feet
-        ctx.fillStyle = edge && l < .5 ? '#e4e7ee' : col(r, g, b);
+        ctx.fillStyle = col(r, g, b, edge ? 1 : 0);
         ctx.fillRect(hx + ox[i] + (cell - sz) / 2, hy + oy[i] + (cell - sz) / 2, sz, sz);
       }
       ctx.globalAlpha = 1;
