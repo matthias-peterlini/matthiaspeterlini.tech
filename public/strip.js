@@ -116,13 +116,14 @@
   });
 
   // ---------- layout, scroll and input ----------
+  const PA = 1.9;   // cover shape, wide like the screenshots
   let W = 0, H = 0, cw = 0, ch = 0, step = 0, cur = 0, target = 0, vel = 0, active = -1, ptr = null, raf = 0, visible = false;
   function resize() {
     const r = Math.min(devicePixelRatio || 1, 2);
     W = cv.clientWidth; H = cv.clientHeight;
     cv.width = Math.round(W * r); cv.height = Math.round(H * r);
     gl.viewport(0, 0, cv.width, cv.height);
-    cw = Math.min(W * (W < 720 ? .62 : .4), 560, H * 1.3); ch = cw / 1.6; step = cw * 1.1;
+    cw = Math.min(W * (W < 720 ? .8 : .52), 760, H * 1.7); ch = cw / PA; step = cw * 1.08;
     wake();
   }
   const range = () => strip.offsetHeight - innerHeight;
@@ -194,7 +195,7 @@
       if (nx > 1.6) return;
       it.hover += ((it.over ? 1 : 0) - it.hover) * .15;
       if (Math.abs((it.over ? 1 : 0) - it.hover) > .01) busy = true;
-      const pa = 1.6, ia = it.aspect;
+      const pa = PA, ia = it.aspect;
       gl.uniform2f(U.uFit, ia > pa ? pa / ia : 1, ia > pa ? 1 : ia / pa);
       gl.uniform4f(U.uRect, x, 0, cw, ch);
       gl.uniform2f(U.uSize, cw, ch);
