@@ -1,5 +1,5 @@
 <a href="https://matthiaspeterlini.tech">
-  <img src="public/og.png" alt="Matthias Peterlini — Developer & designer" width="100%">
+  <img src="docs/hero.png" alt="The hero of matthiaspeterlini.tech: my name in chrome letters over my Minecraft skin drawn in particles" width="100%">
 </a>
 
 <p align="center">
@@ -28,6 +28,11 @@ My personal site: hand-written HTML, CSS and JavaScript served by a Cloudflare W
 - **Live GitHub data**: profile stats, top languages, recently pushed repositories (mine and the [ticly-it](https://github.com/ticly-it) organisation's), and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
 - **English and Italian**: visitors in Italy (or with an Italian browser) land on `/it/` automatically. The language switch remembers their choice.
 - **Considerate by default**: respects `prefers-reduced-motion`, semantic markup and alt text, JSON-LD profile data, Open Graph cards, `hreflang` and a sitemap.
+
+<p>
+  <img src="docs/what-i-do.png" alt="The What I do section: the Founder panel with a glowing title and a huge ghost word behind it" width="49%">
+  <img src="docs/work.png" alt="The projects strip: NexusMC in the middle, the neighbouring covers curling away" width="49%">
+</p>
 
 ## How it works
 
@@ -62,6 +67,7 @@ public/
 ├── favicon.svg
 ├── robots.txt
 └── sitemap.xml
+docs/                   README screenshots
 src/index.js            the Worker
 wrangler.jsonc          Worker config: name, custom domains, static assets
 ```
