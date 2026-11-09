@@ -51,7 +51,7 @@ main { overflow-x: clip; counter-reset: sec; }
   content: ""; position: absolute; inset: 0; z-index: -2;
   background: radial-gradient(ellipse 46% 58% at 50% 40%, #1a1b1f 0%, #0b0b0d 45%, transparent 75%);
 }
-#portrait { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; touch-action: pan-y; cursor: grab; }
+#portrait { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100svh;   /* stays put: its dust sits behind the whole page */ touch-action: pan-y; cursor: grab; }
 #portrait.dragging { cursor: grabbing; }
 h1 {
   font-size: clamp(3rem, 13.4vw, 15rem); line-height: .8; font-weight: 800; font-stretch: 125%;

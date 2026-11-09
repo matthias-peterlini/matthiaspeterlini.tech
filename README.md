@@ -21,7 +21,7 @@ My personal site: hand-written HTML, CSS and JavaScript served by a Cloudflare W
 
 - **Black and chrome**: a monochrome page, wide *Archivo* display type with a chrome gradient, hairlines instead of cards.
 - **Intro**: on the first visit of a session, a dot under a spotlight grows into "!", the letters of my name tumble out of it and fly into place in the hero. Any click, key or scroll skips it.
-- **Minecraft portrait**: my skin (El_Matthiass) is rendered in 3D off-screen by skinview3d and redrawn as thousands of square particles. They assemble after the intro, dodge the pointer and drift apart as you scroll away, and the head follows the pointer. Drag to turn it.
+- **Minecraft portrait**: my skin (El_Matthiass) is rendered in 3D off-screen by skinview3d and redrawn as thousands of square particles. They assemble after the intro and dodge the pointer; scroll down and they burst into dust that stays behind the whole page. The head follows the pointer. Drag to turn it.
 - **Bending project strip**: scrolling slides the project covers sideways on a WebGL strip. They curl away at the edges and split into RGB while moving, with the details of the centred project underneath.
 - **Live GitHub data**: profile stats, top languages, recently pushed repositories, and the contribution calendar as a **3D city** you can drag to rotate and tap for details (or flip back to the classic 2D grid). Drawn on a plain `<canvas>`, no WebGL or libraries.
 - **English and Italian**: visitors in Italy (or with an Italian browser) land on `/it/` automatically. The language switch remembers their choice.

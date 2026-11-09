@@ -1,6 +1,7 @@
 // The hero portrait: my Minecraft skin (El_Matthiass), rendered in 3D off-screen by skinview3d and
 // redrawn as a field of small square particles. They fly in to assemble the figure, scatter away from
-// the pointer, drift apart as the hero scrolls out, and the head follows the pointer. Drag to turn it.
+// the pointer, and the head follows the pointer. Drag to turn it. Scroll down and the figure bursts
+// into dust that settles all over the screen and stays there, behind the page scrolling over it.
 (() => {
   const cv = document.getElementById('portrait'), hero = cv?.closest('.hero');
   if (!cv) return;
@@ -38,13 +39,14 @@
 
     // one particle per grid cell: offset from its home cell, velocity, how visible it is, and a drift direction
     const N = GW * GH, ox = new Float32Array(N), oy = new Float32Array(N), vx = new Float32Array(N), vy = new Float32Array(N);
-    const vis = new Float32Array(N), ang = new Float32Array(N), spd = new Float32Array(N);
+    const vis = new Float32Array(N), ang = new Float32Array(N), spd = new Float32Array(N), rx = new Float32Array(N), ry = new Float32Array(N);
     for (let i = 0; i < N; i++) {
       ang[i] = Math.random() * Math.PI * 2; spd[i] = .4 + Math.random() * .9;
+      rx[i] = Math.random(); ry[i] = .04 + Math.random() * .92;   // where it settles once scattered, as a share of the screen
       if (!still) { const r = 300 + Math.random() * 900; ox[i] = Math.cos(ang[i]) * r; oy[i] = Math.sin(ang[i]) * r; }
     }
 
-    let W = 0, H = 0, cell = 0, x0 = 0, y0 = 0, dpr = 1, px = -1e4, py = -1e4, visible = true, running = false;
+    let px_ = null, W = 0, H = 0, cell = 0, x0 = 0, y0 = 0, dpr = 1, px = -1e4, py = -1e4, visible = true, running = false;
     let yaw = 0, pitch = 0, ty = 0, tp = 0, spin = 0, spinV = 0, drag = null;
     function resize() {
       dpr = Math.min(devicePixelRatio || 1, 2);
@@ -88,22 +90,25 @@
       head.rotation.y = yaw * .6; head.rotation.x = pitch;
 
       const now = performance.now(), steps = Math.max(1, Math.min(30, Math.round((now - last) / 16.7)));   // physics runs at 60 Hz whatever the frame rate
+      const out = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / (H * .7)));   // 0 in view → 1 scrolled past
+      const e = out * out * (3 - 2 * out), held = out > .25;   // once it starts to scatter, the figure stops changing shape
       v.animation?.update(body, Math.min(now - last, 50) / 1000); last = now;
-      v.render();
-      sx.clearRect(0, 0, GW, GH);
-      sx.drawImage(src, 0, 0, GW, GH);
-      const px_ = sx.getImageData(0, 0, GW, GH).data;
-
-      const out = Math.max(0, Math.min(1, -hero.getBoundingClientRect().top / (H * .8)));   // 0 in view → 1 scrolled past
+      if (!held || !px_) {
+        v.render();
+        sx.clearRect(0, 0, GW, GH);
+        sx.drawImage(src, 0, 0, GW, GH);
+        px_ = sx.getImageData(0, 0, GW, GH).data;
+      }
+      const t = now / 1000;
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       ctx.clearRect(0, 0, W, H);
       const R = 40 + cell * 2, R2 = R * R;
       for (let i = 0; i < N; i++) {
         const a = px_[i * 4 + 3];
-        vis[i] += ((a > 60 ? 1 : 0) - vis[i]) * Math.min(1, .25 * steps);
+        if (!held) vis[i] += ((a > 60 ? 1 : 0) - vis[i]) * Math.min(1, .25 * steps);
         const hx = x0 + (i % GW) * cell, hy = y0 + (i / GW | 0) * cell;
-        // spring home, plus the scroll-out drift; every particle moves, so cells that light up later are already home
-        const tx = Math.cos(ang[i]) * out * 420 * spd[i], tyy = Math.sin(ang[i]) * out * 260 * spd[i] - out * 160;
+        // spring home, or to its spot on the screen as the page scrolls (with a slow float); every particle moves, so cells that light up later are already home
+        const tx = (rx[i] * W - hx + Math.cos(t * spd[i] * .4 + ang[i]) * 8) * e, tyy = (ry[i] * H - hy + Math.sin(t * spd[i] * .3 + ang[i]) * 8) * e;
         for (let s = 0; s < steps; s++) {
           vx[i] += (tx - ox[i]) * .045; vy[i] += (tyy - oy[i]) * .045;
           const dx = hx + ox[i] - px, dy = hy + oy[i] - py, d2 = dx * dx + dy * dy;
@@ -115,7 +120,7 @@
         // rim light: cells on the silhouette's edge glow, as if lit from behind
         const c = i % GW, edge = c === 0 || c === GW - 1 || px_[i * 4 - 1] <= 60 || px_[i * 4 + 7] <= 60 || px_[i * 4 - GW * 4 + 3] <= 60 || px_[i * 4 + GW * 4 + 3] <= 60;
         const sz = cell * (edge ? .74 : .55 + l * .3) * vis[i];
-        ctx.globalAlpha = (1 - out * .85) * vis[i] * (1 - (i / GW | 0) / GH * .5);   // the spotlight fades towards the feet
+        ctx.globalAlpha = (1 - e * .5) * vis[i] * (1 - (i / GW | 0) / GH * .5 * (1 - e));   // the spotlight fades towards the feet
         ctx.fillStyle = col(r, g, b, edge ? 1 : 0);
         ctx.fillRect(hx + ox[i] + (cell - sz) / 2, hy + oy[i] + (cell - sz) / 2, sz, sz);
       }
